@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "langindicator"
+version = "0.1.0"
+description = "Language indicator application"
+authors = ["Deminform <deminform@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+customtkinter = "^5.2.2"
+nuitka = "^2.6"
+pillow = "^11.1.0"
+pystray = "^0.19.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
