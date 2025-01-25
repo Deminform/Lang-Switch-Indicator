@@ -3,8 +3,6 @@ import customtkinter as ctk
 from threading import Thread
 from queue import Queue
 import time
-from pystray import Icon, MenuItem, Menu
-from PIL import Image, ImageDraw
 
 
 # Получение текущей раскладки активного окна
@@ -108,36 +106,6 @@ def monitor_language(queue):
             queue.put(new_lang)
 
 
-# Для работы с иконкой в трее
-def create_tray_icon(queue):
-    # Создаем иконку и меню для трея
-    icon_image = Image.new("RGBA", (64, 64), (255, 255, 255, 0))
-    draw = ImageDraw.Draw(icon_image)
-    draw.rectangle([0, 0, 64, 64], fill="black")
-    draw.text((20, 20), "EN", fill="white")
-
-    def on_quit(icon, item):
-        icon.stop()
-
-    menu = Menu(MenuItem("Quit", on_quit))
-
-    icon = Icon("Language Indicator", icon_image, menu=menu)
-
-    def update_tray_icon():
-        while True:
-            if not queue.empty():
-                lang = queue.get_nowait()
-                draw.rectangle([0, 0, 64, 64], fill="black")
-                draw.text((20, 20), lang, fill="white")
-                icon.icon = icon_image
-            time.sleep(0.1)
-
-    tray_thread = Thread(target=update_tray_icon, daemon=True)
-    tray_thread.start()
-
-    icon.run()
-
-
 # Основной процесс
 if __name__ == "__main__":
     queue = Queue()  # Очередь для передачи данных между потоками
@@ -146,5 +114,6 @@ if __name__ == "__main__":
     monitor_thread = Thread(target=monitor_language, args=(queue,), daemon=True)
     monitor_thread.start()
 
-    # Запускаем приложение в трее
-    create_tray_icon(queue)
+    # Запускаем интерфейс
+    app = LanguageIndicator()
+    app.run(queue)
