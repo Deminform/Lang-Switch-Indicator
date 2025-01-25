@@ -6,11 +6,14 @@ authors = ["Deminform <deminform@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.11,<3.14"
 customtkinter = "^5.2.2"
 nuitka = "^2.6"
 pillow = "^11.1.0"
 pystray = "^0.19.5"
+keyboard = "^0.13.5"
+pywin32 = "^308"
+pyinstaller = "^6.11.1"
 
 [build-system]
 requires = ["poetry-core"]
